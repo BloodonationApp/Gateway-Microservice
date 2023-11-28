@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: "gateway"
+  cloud:
+    gateway:
+      routes:
+        - id : stocksang
+          uri : lb://stocksang
+          predicates:
+            - Path= /stocksang/**
+
+        - id : notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path= /notification-service/**
+
+        - id: users-registration
+          uri: lb://users-registration
+          predicates:
+            - Path= /users-registration/**
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+server:
+  port: 8888
+
+
+
+
