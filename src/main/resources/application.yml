@@ -3,27 +3,50 @@ spring:
     name: "gateway"
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+          corsConfigurations:
+            '[/**]':
+              allowedOrigins: "*"
+              allowedHeaders: "*"
+              allowedMethods: "*"
       routes:
         - id : stocksang
           uri : lb://stocksang
           predicates:
             - Path= /stocksang/**
 
+
         - id : notification-service
           uri: lb://notification-service
           predicates:
             - Path= /notification-service/**
 
+
         - id: users-registration
           uri: lb://users-registration
           predicates:
             - Path= /users-registration/**
+
+
+        - id: rendez-vous
+          uri: lb://rendez-vous
+          predicates:
+            - Path= /rendez-vous/**
+
       discovery:
         locator:
           enabled: true
           lowerCaseServiceId: true
+
 server:
   port: 8888
+
+
+
+
+
 
 
 
