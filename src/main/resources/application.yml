@@ -39,19 +39,7 @@ spring:
         locator:
           enabled: true
           lowerCaseServiceId: true
-  security:
-    oauth2:
-      client:
-        provider:
-          my-keycloak-provider:
-            issuer-uri: http://34.227.117.245:8080/auth/realms/My-Realm
-        registration:
-          keycloak-spring-gateway-client:
-            provider: my-keycloak-provider
-            client-id: APP
-            client-secret: cuhJZsRWG40kLH40kpNAqgtE0CIydf96
-            authorization-grant-type: authorization_code
-            redirect-uri: '{baseUrl}/login/oauth2/code/keycloak'
+
 server:
   port: 8888
 
