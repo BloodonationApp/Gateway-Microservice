@@ -3,27 +3,62 @@ spring:
     name: "gateway"
   cloud:
     gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+          corsConfigurations:
+            '[/**]':
+              allowedOrigins: "*"
+              allowedHeaders: "*"
+              allowedMethods: "*"
       routes:
         - id : stocksang
           uri : lb://stocksang
           predicates:
             - Path= /stocksang/**
 
+
         - id : notification-service
           uri: lb://notification-service
           predicates:
             - Path= /notification-service/**
 
+
         - id: users-registration
           uri: lb://users-registration
           predicates:
             - Path= /users-registration/**
+
+
+        - id: rendez-vous
+          uri: lb://rendez-vous
+          predicates:
+            - Path= /rendez-vous/**
+
       discovery:
         locator:
           enabled: true
           lowerCaseServiceId: true
+  security:
+    oauth2:
+      client:
+        provider:
+          my-keycloak-provider:
+            issuer-uri: http://34.227.117.245:8080/auth/realms/My-Realm
+        registration:
+          keycloak-spring-gateway-client:
+            provider: my-keycloak-provider
+            client-id: APP
+            client-secret: cuhJZsRWG40kLH40kpNAqgtE0CIydf96
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/keycloak'
 server:
   port: 8888
+
+
+
+
+
 
 
 
